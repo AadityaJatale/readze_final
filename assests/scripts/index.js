@@ -204,14 +204,6 @@ app.get('/manageBook', async (req, res) => {
 app.get("/manageFeedback",(req,res)=>{
     res.render("manageFeedback")
 })
-// app.get("/sidebar",(req,res)=>{
-//     res.render("manageFeedback")
-// })
-
-// app.get("/manageFeedback",(req,res)=>{
-//     res.render("manageFeedback")
-// })
-
 
 app.get("/register", (req, res) => {
     res.render("register");
