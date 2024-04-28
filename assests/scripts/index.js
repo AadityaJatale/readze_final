@@ -143,6 +143,45 @@ app.get('/category', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
+router.get("/student-corner", async (req, res) => {
+    const student_categories = ['student-guides', 'textbooks', 'refrence-books', 'exam-prep-books', 'college-books', 'technical-books', 'academic papers']; // Modify this to your actual array of categories
+    try {
+        if (req.session.user) {
+            const user = req.session.user;
+            const username = req.query.username;
+            // Get distinct categories from the database
+            const categories = await Book.distinct('category');
+            // Create an object to store books for each category
+            const booksByCategory = {};
+
+            // Fetch books for each category
+            for (const category of categories) {
+                if(student_categories.includes(category)){
+                    const books = await Book.find({ category });
+                    booksByCategory[category] = books.slice(0, 20);
+                }
+                
+            }
+            for (const category in booksByCategory) {
+                booksByCategory[category].forEach(book => {
+                    // Assuming book.image is a Buffer containing the image data
+                    book.imageBase64 = book.image.toString('base64');
+                });
+            }
+
+            // Render homepage with categories and books
+            res.render('student_corner', { categories, booksByCategory, user });
+        }
+        else {
+            res.redirect('/login');
+        }
+    }
+    catch (err) {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
 
 app.get("/cart", async (req, res) => {
     const { bookId } = req.query; 
@@ -225,6 +264,9 @@ app.get("/about", (req, res) => {
     res.render("about");
 });
 
+// app.get("/student-corner", (req, res) =>{
+//     res.render("student_corner")
+// })
 
 
 app.get('/admin_script', async (req, res) => {
