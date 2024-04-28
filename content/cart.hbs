@@ -23,18 +23,14 @@
                     </tr>
                 </thead>
                 <tbody id="cart_body">
-                    {{#if book}}
+                    {{#each book}}
                     <tr>
-                       <td><img src="data:image/jpeg;base64,{{imageData}}" alt="{{bookName}}"></td>
-                        <td>{{book.bookName}}</td>
-                        <td>{{book.author}}</td>
-                        <td>{{book.price}}</td>
+                        <td><img src="data:image/jpeg;base64,{{this.book.imageData}}" alt="{{this.book.bookName}}"></td>
+                        <td>{{this.book.bookName}}</td>
+                        <td>{{this.book.author}}</td>
+                        <td>{{this.book.price}}</td>
                     </tr>
-                    {{else}}
-                    <tr>
-                        <td colspan="4">{{errorMessage}}</td>
-                    </tr>
-                    {{/if}}
+                    {{/each}}
                 </tbody>
             </table>
         </div>
@@ -43,5 +39,4 @@
     <div id="footer"></div>
     <script src="cart.js"></script>
 </body>
-
 </html>

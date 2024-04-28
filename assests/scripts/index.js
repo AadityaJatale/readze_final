@@ -6,7 +6,7 @@ const multer = require("multer");
 const router = express.Router();
 const crypto = require('crypto');
 const MongoStore = require('connect-mongo');
-const { Register, Feedback, Admin, Book,UserCartBook } = require("./mongodb.js");
+const { Register, Feedback, Admin, Book,UserItsCartBook } = require("./mongodb.js");
 
 const templatePath = path.join(__dirname, '../../content');
 
@@ -33,6 +33,7 @@ app.use(express.static(path.join(__dirname, '../../assests/images')));
 const storage = multer.memoryStorage(); // Use memory storage to handle file as Buffer
 const upload = multer({ storage: storage });
 
+//------------------Admin APIs---------------------
 app.post("/addBook", upload.single("image"), (req, res) => {
     const { bookName, author, price, description, category } = req.body;
     const image = req.file.buffer; // Get image buffer from request
@@ -144,30 +145,30 @@ app.get('/category', async (req, res) => {
     }
 });
 
-app.get("/cart", async (req, res) => {
-    const { bookId } = req.query; 
-    const user = req.session.user;
-    const userid=user._id;
-    const data = {
-        userID: userid,
-        bookID: bookId,
-    };
-    await UserCartBook.insertMany([data]);
+// Endpoint to fetch all books in the user's cart
+app.get('/cart', async (req, res) => {
+    const userID = req.session.user._id; // Assuming userID is stored in the session
     try {
-        // console.log()
-        // // Get an array of bookIds
-        // const bookIds = userBooks.map(userBooks => mongoose.Types.ObjectId(userBooks.bookId));
-        // console.log(bookIds)
-        // // Fetch all books with the bookIds
-        // const books = await Book.find({ _id: { $in: bookIds } });
+        const userCartBooks = await UserItsCartBook.find({ userID }).lean();
+        
+        if (!userCartBooks) {
+            return res.status(404).send('No cart items found');
+        }
 
-        // res.render("cart", { books });
+        // Fetch book details for each bookID in the user's cart
+        const bookIDs = userCartBooks.map(item => item.bookID);
+        const books = await Book.find({ _id: { $in: bookIDs } }).lean();
+    
+        const userCart = userCartBooks.map(item => {
+            const book = books.find(book => book._id.toString() === item.bookID);
+            return { ...item, book };
+        });
+
+        res.render('cart', { book: userCart });
     } catch (err) {
         console.error(err);
-        res.status(500).send("Internal Server Error");
+        res.status(500).send('Failed to load user cart');
     }
-   
-    res.render("cart");
 });
 
 app.get("/adminPage", (req, res) => {
@@ -302,6 +303,6 @@ app.post("/login", async (req, res) => {
 });
 
 
-app.listen(3001, () => {
+app.listen(3000, () => {
     console.log("Server is running on port 3000");
 });
