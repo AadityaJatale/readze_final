@@ -14,17 +14,16 @@
     <div id="navbar"></div>
     <!-- next home page content  -->
     <main>
-        <h1 id="user_greeting">Welcome back,<i style="color: rgba(63, 63, 218, 0.74);">{{user.username}}</i> What would
-            you like to read Today?..</h1>
+
         <div class="main-sec-books">
-            <div class="sec-1">
+            {{!-- <div class="sec-1">
                 <h1>Categories</h1>
                 <ul>
                     {{#each categories}}
                     <li><a href="/category/{{this}}">{{this}}</a></li>
                     {{/each}}
                 </ul>
-            </div>
+            </div> --}}
             {{#each booksByCategory}}
             <div class="sec-2">
                 <h2>{{@key}}</h2>
