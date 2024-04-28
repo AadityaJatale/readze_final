@@ -1,0 +1,27 @@
+
+#footer_part{
+    margin-top: 10px;
+    background-color: rgba(79, 92, 194, 0.835);
+    padding: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    font-size: 1.3rem;
+}
+#link1 h4,#link2 h4{
+    font-size: 1.7rem;
+}
+#link1 ul,#link2 ul{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    list-style: none;
+}
+#link1 a,#link2 a{
+    color: rgb(32, 32, 32);
+}
+#link1 i,#link2 i{
+    padding: 6px;
+    color: rgba(255, 255, 255, 0.815);
+}

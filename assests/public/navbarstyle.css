@@ -1,0 +1,114 @@
+/* Style for the navbar */
+* {
+    margin: 0%;
+    padding: 0%;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+nav {
+    top: 0;
+    background-color: rgb(62, 55, 136);
+    color: white;
+    width: 100%;
+    padding: 20px 0px 20px 0px;
+    font-size: 1.4rem;
+    display: flex;
+    justify-content:space-between;
+    position: fixed;
+    height: 30px;
+    z-index: 2;
+    align-items: center;
+}
+
+/* logo */
+.nav-logo img{
+    height:50px;
+}
+
+/* list  */
+.nav-list {
+    list-style-type: none;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    color: white;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+/* login/register */
+.regi_login span {
+    margin-right: 20px;
+}
+
+/* cart  */
+.nav-cart {
+    margin-right: 30px;
+    display: flex;
+}
+
+.nav-cart span {
+    position: absolute;
+    top: 10px;
+    right: 40px;
+    background-color: red;
+    color: white;
+    font-size: 0.8em;
+    padding: 2px 5px;
+    border-radius: 50%;
+}
+
+/* Dropdown button */
+.dropbtn {
+    background-color: #3498db;
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.dropdown-content {
+    margin-top: 20px;
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    font-size: medium;
+    width: fit-content;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    z-index: 1;
+}
+.dropdown-content ul{
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+}
+/* Dropdown content (hidden by default) */
+
+
+/* Links inside the dropdown */
+.dropdown-content li,.dropdown-content a {
+    color: black;
+    padding: 10px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Style the dropdown button on hover */
+.dropdown:hover .dropbtn {
+    background-color: #2980b9;
+}

@@ -1,0 +1,125 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Document</title>
+    <style>
+        
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body{
+            background: #f5f6fa;
+        }
+
+        .wrapper .sidebar{
+            background: #eee7e7;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 275px;
+            height: 100%;
+            padding: 20px 0;
+            transition: all 0.5s ease;
+        }
+        .profile{
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .profile img{
+            display: block;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto;
+        }
+
+        .profile h3{
+
+            margin: 10px 0 5px;
+        }
+        a{
+            text-decoration: none;
+            display: block;
+            padding: 13px 30px;
+            font-size: 16px;
+            position: relative;
+            color: black;
+        }
+
+        i{
+            color: black;
+            width: 30px;
+            display: inline-block;
+        }
+
+
+        li:hover{
+            background:black;
+        }
+        li:hover i,
+        li:hover a{
+            color: white;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="sidebar">
+             <div class="profile">
+                <img src="/My-Readze-Project/assests/images/author2.jpg" alt="profile_picture">
+                <h3>Admin Admin</h3>
+            </div>
+        <ul class="w3-bar">
+            <li><a href="/manageUser" >
+                <i class="fa-solid fa-user"></i>
+                User List
+                </a>
+            </li>
+            <li><a href="/manageAdmin" >
+                <i class="fa-solid fa-user-tie"></i>
+                Admin List</a>
+            </li>
+            <li><a href="/manageBook" >
+                <i class="fa-solid fa-book"></i>
+                Manage Books</a>
+            </li>
+            <li><a href="/manageFeedback" >
+                <i class="fa-solid fa-comment"></i>
+                Feedback</a>
+            </li>
+            <li><a href="/addBooks" >
+                <i class="fa-solid fa-plus"></i>
+                Add Book</a>
+            </li>
+            <li><a href="#" >
+                <i class="fa-solid fa-gear"></i>
+                Setting</a>
+            </li>
+        </ul>
+      </div>
+      
+    </div>
+  </body>
+</html>

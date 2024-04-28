@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .list{
+            margin-left: 275px;
+        }
+    </style>
+</head>
+<body>
+    <div id="adminNavbar"></div>
+    <div class="list">
+            <h2>User List</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>Password</th>
+                    </tr>
+                </thead>
+                <tbody id="user-table-body">
+                    <!-- rows will be add dynamically -->
+                </tbody>
+            </table>
+    </div>
+    <script src="/admin_script.js"></script>
+    <script>
+        fetch('/adminNavbar')
+    .then(response => response.text())
+    .then(data => document.getElementById('adminNavbar').innerHTML = data);
+    </script>
+</body>
+</html>

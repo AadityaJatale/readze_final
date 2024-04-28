@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login/SignUp</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        body{
+            display: flex;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+            background-color: antiquewhite;
+        }
+        .container{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50vh;
+            padding: 40px;
+            border-radius: 5px;
+            background-color: aliceblue;
+            box-shadow: 5px 5px 15px rgb(96, 91, 91);
+        }
+        input{
+            margin-top: 20px;
+            padding: 5px 15px;
+            width: 100%;
+            font-size: 17px;
+            border: none;
+            outline: none;
+            border-radius: 5px;
+        }
+        h1{
+            text-align: center;
+        }
+        p{
+            margin-top: 30px;
+            text-align: center;
+        }
+        #login input{
+            width: 105%;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form action="/login" method="post">
+            <h1>Login</h1>
+            <div id="input1">
+                <input type="text" name="username" id="username" placeholder="email or username" required>
+            </div>
+            <div id="input2">
+                <input type="password" name="password" placeholder="password" required>
+            </div>
+            <div id="login">
+                <input type="submit" value="Login">
+            </div>
+            <p>New User? <a href="/register">Register Here!</a></p>
+        </form>
+    </div>
+</body>
+</html>
