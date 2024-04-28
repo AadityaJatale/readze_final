@@ -93,5 +93,5 @@ module.exports = {
     Feedback: mongoose.model("feedback_Data", FeedbackSchema),
     Admin: mongoose.model("Admin_Data", AdminSchema),
     Book: mongoose.model("Books_Data", bookSchema),
-    UserCartBook: mongoose.model("UserCart_Data", UserCartBooks)
+    UserItsCartBook: mongoose.model("UserCart_Data", UserCartBooks)
 };
