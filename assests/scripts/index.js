@@ -126,9 +126,33 @@ app.delete('/books/:id', async (req, res) => {
     }
 });
 
-app.get('/header', (req, res) => {
+app.get('/header', async (req, res) => {
     const user = req.session.user;
-    res.render('header', { user: user });
+    const userID = req.session.user._id; // Assuming userID is stored in the session
+    try {
+        const userCartBooks = await UserItsCartBook.find({ userID }).lean();
+        
+        if (!userCartBooks) {
+            return res.status(404).send('No cart items found');
+        }
+
+        // Fetch book details for each bookID in the user's cart
+        const bookIDs = userCartBooks.map(item => item.bookID);
+        const books = await Book.find({ _id: { $in: bookIDs } }).lean();
+    
+        const userCart = userCartBooks.map(item => {
+            const book = books.find(book => book._id.toString() === item.bookID);
+            img = book.image.toString('base64');
+            return { ...item, book, img};
+        });
+        const bookCount = userCart.length;
+        res.render('header', { user: user, bookCount});
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Failed to load user cart');
+    }
+    
 });
 
 app.get('/category', async (req, res) => {
@@ -200,13 +224,56 @@ app.get('/cart', async (req, res) => {
     
         const userCart = userCartBooks.map(item => {
             const book = books.find(book => book._id.toString() === item.bookID);
-            return { ...item, book };
+            img = book.image.toString('base64');
+            return { ...item, book, img};
         });
+        const bookCount = userCart.length;
 
-        res.render('cart', { book: userCart });
+        res.render('cart', { book: userCart , bookCount});
     } catch (err) {
         console.error(err);
         res.status(500).send('Failed to load user cart');
+    }
+});
+app.get("/addCart", async (req, res) => {
+    const { bookId } = req.query; 
+
+    // Check if the user is logged in
+    if (!req.session.user) {
+        return res.redirect('/login'); // Redirect the user to the login page if not logged in
+    }
+
+    // // Check if bookId is provided
+    // if (!bookId) {
+    //     return res.status(400).send('Book ID is missing.'); // Send an error response if bookId is missing
+    // }
+
+    // Access the user ID from the session
+    const userid = req.session.user._id;
+
+    // Create data object for UserCartBook
+    const data = {
+        userID: userid,
+        bookID: bookId,
+    };
+   
+    try {
+        // Insert data into UserCartBook collection
+        await UserItsCartBook.insertMany([data]);
+        res.redirect("cart"); // Render the cart page
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+app.delete('/removeFromCart/:id', async (req, res) => {
+    try {
+        await UserItsCartBook.findByIdAndDelete(req.params.id);
+        res.sendStatus(200); // Send a success status back to the client
+    } catch (err) {
+        console.error(err);
+        res.sendStatus(500); // Send an error status back to the client
     }
 });
 
@@ -265,9 +332,6 @@ app.get("/about", (req, res) => {
     res.render("about");
 });
 
-// app.get("/student-corner", (req, res) =>{
-//     res.render("student_corner")
-// })
 
 
 app.get('/admin_script', async (req, res) => {

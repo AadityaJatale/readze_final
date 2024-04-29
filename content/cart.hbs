@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <div id="contactUs_navbar"></div>
+    <div id="navbar"></div>
     <div class="cart-container">
         <h1>Shopping Cart</h1>
         <div id="cart-items">
@@ -20,15 +20,17 @@
                         <th>Title</th>
                         <th>Author</th>
                         <th>Price</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody id="cart_body">
                     {{#each book}}
                     <tr>
-                        <td><img src="data:image/jpeg;base64,{{this.book.imageData}}" alt="{{this.book.bookName}}"></td>
+                        <td><img src="data:image/jpeg;base64,{{img}}" alt="{{this.book.bookName}}"></td>
                         <td>{{this.book.bookName}}</td>
                         <td>{{this.book.author}}</td>
                         <td>{{this.book.price}}</td>
+                        <td><button onclick="removeFromCart('{{this._id}}')">Remove</button></td>
                     </tr>
                     {{/each}}
                 </tbody>
@@ -37,6 +39,7 @@
         <button id="checkout-btn">Checkout</button>
     </div>
     <div id="footer"></div>
+    <script src="script.js"></script>
     <script src="cart.js"></script>
 </body>
 </html>
