@@ -34,11 +34,12 @@ const storage = multer.memoryStorage(); // Use memory storage to handle file as 
 const upload = multer({ storage: storage });
 
 //------------------Admin APIs---------------------
-app.post("/addBook", upload.single("image"), (req, res) => {
+app.post("/addBook", upload.fields([{ name: "image", maxCount: 1 }, { name: "book", maxCount: 1 }]), (req, res) => {
     const { bookName, author, price, description, category } = req.body;
-    const image = req.file.buffer; // Get image buffer from request
+    const image = req.files['image'][0].buffer; // Get image buffer from request
+    const book = req.files['book'][0].buffer;
 
-    const newBook = new Book({ bookName, author, price, description, image, category });
+    const newBook = new Book({ bookName, author, price, description, image, book, category });
     newBook.save()
         .then(() => {
             res.send("Book added successfully");
@@ -142,8 +143,8 @@ app.get('/header', async (req, res) => {
     
         const userCart = userCartBooks.map(item => {
             const book = books.find(book => book._id.toString() === item.bookID);
-            img = book.image.toString('base64');
-            return { ...item, book, img};
+            // img = book.image.toString('base64');
+            return { ...item, book};
         });
         const bookCount = userCart.length;
         res.render('header', { user: user, bookCount});
@@ -214,27 +215,44 @@ app.get('/cart', async (req, res) => {
     try {
         const userCartBooks = await UserItsCartBook.find({ userID }).lean();
         
-        if (!userCartBooks) {
+        if (!userCartBooks || userCartBooks.length === 0) {
             return res.status(404).send('No cart items found');
         }
 
         // Fetch book details for each bookID in the user's cart
         const bookIDs = userCartBooks.map(item => item.bookID);
-        const books = await Book.find({ _id: { $in: bookIDs } }).lean();
-    
-        const userCart = userCartBooks.map(item => {
-            const book = books.find(book => book._id.toString() === item.bookID);
-            img = book.image.toString('base64');
-            return { ...item, book, img};
-        });
-        const bookCount = userCart.length;
+        console.log("BookIds:", bookIDs);
+        
+        // Find books only if there are bookIDs available
+        if (bookIDs.length > 0) {
+            const books = await Book.find({ _id: { $in: bookIDs } }).lean();
+            console.log("Books:", books);
+            if (!books || books.length === 0) {
+                // If no books found, render the cart page with an empty book array
+                return res.render('cart', { book: [], bookCount: 0 });
+            }
 
-        res.render('cart', { book: userCart , bookCount});
+            const userCart = userCartBooks.map(item => {
+                const book = books.find(book => book._id.toString() === item.bookID);
+                // Check if book is found and has an 'image' property before accessing it
+                const img = (book && book.image) ? book.image.toString('base64') : null;
+                return { ...item, book, img };
+            });
+
+            console.log("UserCart:", userCart);
+            const bookCount = userCart.length;
+
+            res.render('cart', { book: userCart, bookCount });
+        } else {
+            // If no bookIDs found, render the cart page with an empty book array
+            res.render('cart', { book: [], bookCount: 0 });
+        }
     } catch (err) {
         console.error(err);
         res.status(500).send('Failed to load user cart');
     }
 });
+
 app.get("/addCart", async (req, res) => {
     const { bookId } = req.query; 
 
@@ -268,12 +286,12 @@ app.get("/addCart", async (req, res) => {
 });
 
 
-app.get("/myBooks", async (req,res)=>{
+app.get("/myBooks", async (req, res) => {
     const userID = req.session.user._id; // Assuming userID is stored in the session
     try {
         const userCartBooks = await UserBook.find({ userID }).lean();
         
-        if (!userCartBooks) {
+        if (!userCartBooks || userCartBooks.length === 0) {
             return res.status(404).send('No cart items found');
         }
 
@@ -283,8 +301,9 @@ app.get("/myBooks", async (req,res)=>{
     
         const userCart = userCartBooks.map(item => {
             const book = books.find(book => book._id.toString() === item.bookID);
-            img = book.image.toString('base64');
-            return { ...item, book, img};
+            // Check if book is found and if it has an image
+            const img = book && book.image ? book.image.toString('base64') : null;
+            return { ...item, book, img };
         });
         const bookCount = userCart.length;
 
@@ -293,7 +312,8 @@ app.get("/myBooks", async (req,res)=>{
         console.error(err);
         res.status(500).send('Failed to load user cart');
     }
-})
+});
+
 
 app.get("/buy", async (req, res) => {
     // Check if the user is logged in
@@ -328,6 +348,28 @@ app.get("/buy", async (req, res) => {
     }
 });
 
+// ReadBook
+const fs = require('fs');
+
+// Assuming you have a route like /readBook that receives a bookId parameter
+app.get('/readBook', async (req, res) => {
+    const { bookId } = req.query;
+
+    try {
+        const book = await Book.findById(bookId);
+        
+        if (!book) {
+            return res.status(404).send('Book not found');
+        }
+
+        // Assuming book.book contains the PDF buffer
+        res.contentType("application/pdf");
+        res.send(book.book);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
+    }
+});
 
 app.delete('/removeFromCart/:id', async (req, res) => {
     try {

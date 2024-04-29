@@ -95,6 +95,7 @@ const bookSchema = new mongoose.Schema({
     price: Number,
     description: String,
     image: Buffer,
+    book: Buffer,
     category: String
 });
 
