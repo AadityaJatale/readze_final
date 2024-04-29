@@ -6,7 +6,7 @@ const multer = require("multer");
 const router = express.Router();
 const crypto = require('crypto');
 const MongoStore = require('connect-mongo');
-const { Register, Feedback, Admin, Book,UserItsCartBook } = require("./mongodb.js");
+const { Register, Feedback, Admin, Book,UserItsCartBook , UserBook} = require("./mongodb.js");
 
 const templatePath = path.join(__dirname, '../../content');
 
@@ -266,6 +266,68 @@ app.get("/addCart", async (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 });
+
+
+app.get("/myBooks", async (req,res)=>{
+    const userID = req.session.user._id; // Assuming userID is stored in the session
+    try {
+        const userCartBooks = await UserBook.find({ userID }).lean();
+        
+        if (!userCartBooks) {
+            return res.status(404).send('No cart items found');
+        }
+
+        // Fetch book details for each bookID in the user's cart
+        const bookIDs = userCartBooks.map(item => item.bookID);
+        const books = await Book.find({ _id: { $in: bookIDs } }).lean();
+    
+        const userCart = userCartBooks.map(item => {
+            const book = books.find(book => book._id.toString() === item.bookID);
+            img = book.image.toString('base64');
+            return { ...item, book, img};
+        });
+        const bookCount = userCart.length;
+
+        res.render('myBOoks', { book: userCart , bookCount});
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Failed to load user cart');
+    }
+})
+
+app.get("/buy", async (req, res) => {
+    // Check if the user is logged in
+    if (!req.session.user) {
+        return res.redirect('/login'); // Redirect the user to the login page if not logged in
+    }
+
+    const { bookId } = req.query; 
+    const userID = req.session.user._id;
+
+    try {
+        // Check if the user has already purchased the book
+        const check = await UserBook.find({ userID: userID, bookID: bookId });
+        
+        if (check.length > 0) {
+            // Book already purchased
+            return res.status(400).send("Book Is already Purchased");
+        }
+
+        // Create data object for UserBook
+        const data = {
+            userID: userID,
+            bookID: bookId,
+        };
+       
+        // Insert data into UserBook collection
+        await UserBook.create(data);
+        res.redirect("/myBooks"); // Redirect to the user's purchased books page
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
 
 app.delete('/removeFromCart/:id', async (req, res) => {
     try {

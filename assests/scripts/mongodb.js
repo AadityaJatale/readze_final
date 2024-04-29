@@ -37,6 +37,17 @@ const UserCartBooks = new mongoose.Schema({
     }
 });
 
+const UserBooks = new mongoose.Schema({
+    userID: {
+        type: String,
+        required: true
+    },
+    bookID: {
+        type: String,
+        required: true
+    }
+});
+
 const RegisterSchema = new mongoose.Schema({
     username: {
         type: String,
@@ -93,5 +104,6 @@ module.exports = {
     Feedback: mongoose.model("feedback_Data", FeedbackSchema),
     Admin: mongoose.model("Admin_Data", AdminSchema),
     Book: mongoose.model("Books_Data", bookSchema),
-    UserItsCartBook: mongoose.model("UserCart_Data", UserCartBooks)
+    UserItsCartBook: mongoose.model("UserCart_Data", UserCartBooks),
+    UserBook: mongoose.model("UserBook_Data", UserBooks)
 };
