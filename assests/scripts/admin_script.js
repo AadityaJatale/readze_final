@@ -17,17 +17,6 @@ fetch('/admin_script')
             usersTableBody.appendChild(row);
         });
 
-        const adminsTableBody = document.getElementById('admin-table-body');
-        data.admin.forEach(admin => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${admin.username}</td>
-                <td>${admin.email}</td>
-                <td>${admin.phone_no}</td>
-                <td>${admin.password}</td>
-            `;
-            adminsTableBody.appendChild(row);
-        });
 
         const FeedbackTableBody = document.getElementById('feedback-table-body');
         data.feedback.forEach(feedback => {
@@ -43,6 +32,40 @@ fetch('/admin_script')
     })
     .catch(error => console.error('Error:', error));
 
+    fetch('/admin_script')
+    .then(response => response.json())
+    .then(data => {
+        const adminsTableBody = document.getElementById('admin-table-body');
+        data.admin.forEach(admin => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${admin.username}</td>
+                <td>${admin.email}</td>
+                <td>${admin.phone_no}</td>
+                <td>${admin.password}</td>
+            `;
+            adminsTableBody.appendChild(row);
+        });
+
+    })
+    .catch(error => console.error('Error:', error));
+    fetch('/admin_script')
+    .then(response => response.json())
+    .then(data => {
+        const FeedbackTableBody = document.getElementById('feedback-table-body');
+        data.feedback.forEach(feedback => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${feedback.username}</td>
+                <td>${feedback.email}</td>
+                <td>${feedback.phone_no}</td>
+                <td>${feedback.message}</td>
+            `;
+            FeedbackTableBody.appendChild(row);
+        });
+
+    })
+    .catch(error => console.error('Error:', error));
 
 function fetchTotalCount() {
     fetch('/books/count')
