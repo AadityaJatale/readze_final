@@ -15,35 +15,7 @@ fetch("/admin_script")
                 <td>${user.password}</td>
             `;
       usersTableBody.appendChild(row);
-    });
-
-<<<<<<< Updated upstream
-=======
-    const adminsTableBody = document.getElementById("admin-table-body");
-    data.admin.forEach((admin) => {
-      const row = document.createElement("tr");
-      row.innerHTML = `
-                <td>${admin.username}</td>
-                <td>${admin.email}</td>
-                <td>${admin.phone_no}</td>
-                <td>${admin.password}</td>
-            `;
-      adminsTableBody.appendChild(row);
-    });
->>>>>>> Stashed changes
-
-    const FeedbackTableBody = document.getElementById("feedback-table-body");
-    data.feedback.forEach((feedback) => {
-      const row = document.createElement("tr");
-      row.innerHTML = `
-                <td>${feedback.username}</td>
-                <td>${feedback.email}</td>
-                <td>${feedback.phone_no}</td>
-                <td>${feedback.message}</td>
-            `;
-<<<<<<< Updated upstream
-            FeedbackTableBody.appendChild(row);
-        });
+    });   
     })
     .catch(error => console.error('Error:', error));
 
@@ -81,12 +53,7 @@ fetch("/admin_script")
 
     })
     .catch(error => console.error('Error:', error));
-=======
-      FeedbackTableBody.appendChild(row);
-    });
-  })
-  .catch((error) => console.error("Error:", error));
->>>>>>> Stashed changes
+
 
 function fetchTotalCount() {
   fetch("/books/count")

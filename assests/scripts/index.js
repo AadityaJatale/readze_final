@@ -221,12 +221,11 @@ app.get('/cart', async (req, res) => {
 
         // Fetch book details for each bookID in the user's cart
         const bookIDs = userCartBooks.map(item => item.bookID);
-        console.log("BookIds:", bookIDs);
         
         // Find books only if there are bookIDs available
         if (bookIDs.length > 0) {
             const books = await Book.find({ _id: { $in: bookIDs } }).lean();
-            console.log("Books:", books);
+
             if (!books || books.length === 0) {
                 // If no books found, render the cart page with an empty book array
                 return res.render('cart', { book: [], bookCount: 0 });
@@ -239,7 +238,6 @@ app.get('/cart', async (req, res) => {
                 return { ...item, book, img };
             });
 
-            console.log("UserCart:", userCart);
             const bookCount = userCart.length;
 
             res.render('cart', { book: userCart, bookCount });
@@ -443,7 +441,6 @@ app.get('/admin_script', async (req, res) => {
         const users = await Register.find();
         const admin = await Admin.find();
         const feedback = await Feedback.find();
-        console.log(feedback)
         res.json({ users, admin, feedback });
     } catch (err) {
         console.error(err);
