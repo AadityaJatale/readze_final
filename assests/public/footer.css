@@ -1,7 +1,8 @@
 
 #footer_part{
     margin-top: 10px;
-    background-color: rgba(79, 92, 194, 0.835);
+    background-color: rgba(2, 2, 50, 0.835);
+    color: antiquewhite;
     padding: 30px;
     display: flex;
     flex-direction: row;
@@ -19,7 +20,7 @@
     list-style: none;
 }
 #link1 a,#link2 a{
-    color: rgb(32, 32, 32);
+    color: antiquewhite;
 }
 #link1 i,#link2 i{
     padding: 6px;

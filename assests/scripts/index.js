@@ -443,6 +443,7 @@ app.get('/admin_script', async (req, res) => {
         const users = await Register.find();
         const admin = await Admin.find();
         const feedback = await Feedback.find();
+        console.log(feedback)
         res.json({ users, admin, feedback });
     } catch (err) {
         console.error(err);
