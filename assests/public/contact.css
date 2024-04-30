@@ -13,12 +13,13 @@ body{
     justify-content: center;
 }
 .contactUs_form h6{
+    color: aliceblue;
     font-size:x-large;
 }
 .contactUs_form{
     display: flex;
     flex-direction: column;
-    background-color: antiquewhite;
+    background-color: rgb(64, 64, 95);
     width: 50vw;
     align-items: center;
     justify-content: center;
@@ -34,12 +35,14 @@ body{
   align-items: center;
 }
 #submit_btn{
-    background-color: rgb(193, 177, 156);
+    color: aliceblue;
+    font-size: large;
+    background-color: rgb(26, 26, 63);
     border-radius: 25px;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 50%;
+    width: 40%;
 }
 
 #submit_btn:hover{
