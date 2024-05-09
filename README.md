@@ -13,7 +13,7 @@ experience across a wide range of devices.
 
 ## Technologies Used
 
-\- Frontend: HTML, CSS, JavaScript, React - Backend: Node.js,
+\- Frontend: HTML, CSS, JavaScript - Backend: Node.js,
 Express.js - Database: MongoDB
 
 ## Getting Started
