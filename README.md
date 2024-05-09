@@ -20,7 +20,7 @@ Express.js - Database: MongoDB
 
 1 \. Clone the repository:
 
-\\`bash git clone https://github.com/your-username/READZE.git \`
+\\`bash git clone https://github.com/AadityaJatale/readze_final.git`
 
 2\. Install dependencies:
 
@@ -30,7 +30,7 @@ Express.js - Database: MongoDB
 
 \\`bash npm start \`
 
-4\. Open your browser and navigate to \`http://localhost:3000\` to view
+4\. Open your browser and navigate to \`http://localhost:3001\` to view
 the application.
 
 ## User Page
