@@ -9,7 +9,7 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: antiquewhite;
+    background-color: rgb(247, 237, 225);
     height: 100vh;
 }
 .container{
